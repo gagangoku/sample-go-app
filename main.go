@@ -9,7 +9,7 @@ import (
 func main() {
 	ctx := context.Background()
 	logger := zerolog.Ctx(ctx)
-	logger.Info().Msgf("Starting up")
+	logger.Info().Msgf("Starting up: %s", VERSION)
 
 	// Initialize app
 	app := &App{}

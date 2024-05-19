@@ -123,7 +123,7 @@ func WaitForKillSignal(ctx context.Context) {
 }
 
 func (app *App) versionHandler(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "1.0.0")
+	io.WriteString(w, VERSION)
 }
 
 func (app *App) healthHandler(w http.ResponseWriter, r *http.Request) {

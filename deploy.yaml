@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sample-go-app
-          image: gagangoku1/sample-go-app-cloudbuild:latest
+          image: gagangoku1/sample-go-app:latest
           ports:
             - containerPort: 4001
               protocol: TCP
