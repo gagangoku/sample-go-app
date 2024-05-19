@@ -1,0 +1,44 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sample-go-app
+  labels:
+    app: sample-go-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-go-app
+  template:
+    metadata:
+      labels:
+        app: sample-go-app
+    spec:
+      containers:
+        - name: sample-go-app
+          image: gagangoku1/sample-go-app-cloudbuild:latest
+          ports:
+            - containerPort: 4001
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "4001"
+            - name: PRETTY_LOG
+              value: "true"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sample-go-app
+  labels:
+    app: sample-go-app
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+spec:
+  ports:
+    - protocol: TCP
+      port: 4001
+      targetPort: 4001
+  selector:
+    app: sample-go-app
+  type: ClusterIP
