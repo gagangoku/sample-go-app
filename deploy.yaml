@@ -4,6 +4,9 @@ metadata:
   name: sample-go-app
   labels:
     app: sample-go-app
+  annotations:
+    keel.sh/policy: all # <-- policy name according to https://semver.org/
+    keel.sh/trigger: poll # <-- actively query registry, otherwise defaults to webhooks
 spec:
   replicas: 1
   selector:
