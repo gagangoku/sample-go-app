@@ -5,8 +5,8 @@ metadata:
   labels:
     app: sample-go-app
   annotations:
-    keel.sh/policy: all # <-- policy name according to https://semver.org/
-    keel.sh/trigger: poll # <-- actively query registry, otherwise defaults to webhooks
+    keel.sh/policy: all
+    keel.sh/trigger: poll
 spec:
   replicas: 1
   selector:
@@ -45,3 +45,29 @@ spec:
   selector:
     app: sample-go-app
   type: ClusterIP
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: sample-go-app-ingress
+  annotations:
+    # Allow large files to be uploaded
+    # https://stackoverflow.com/a/73548785/2557517 for why its called proxy-body-size and not client_max_body_size
+    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
+spec:
+  tls:
+    - hosts:
+      - 'sample.whatlist.io'
+      secretName: secret-whatlist-20240305
+  ingressClassName: nginx
+  rules:
+    - host: 'sample.whatlist.io'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sample-go-app
+                port:
+                  number: 4001
