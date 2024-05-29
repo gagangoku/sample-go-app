@@ -9,6 +9,8 @@ metadata:
     keel.sh/trigger: poll
 spec:
   replicas: 1
+  strategy:
+    type: Recreate  # delete old pods before creating new ones
   selector:
     matchLabels:
       app: sample-go-app
